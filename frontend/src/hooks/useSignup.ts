@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { useAuthContext } from "../context/AuthContext";
 
 interface SignupInputs {
   fullName: string;
@@ -11,6 +12,8 @@ interface SignupInputs {
 
 const useSignup = () => {
   const [loading, setLoading] = useState(false);
+  //@ts-ignore
+  const {setAuthUser} = useAuthContext()
 
   const signup = async ({
     fullName,
@@ -44,7 +47,14 @@ const useSignup = () => {
       });
 
       const data = await res.json();
-      console.log(data);
+      if(data.error){ // error from the backend - in 'catch block' of the backend 
+        throw new Error(data.error)
+      }
+
+      //localstorage
+      localStorage.setItem("chat-user", JSON.stringify(data))
+      //context
+      setAuthUser(data) // updating the context and setting the user details
 
     } catch (error:any) {
       toast.error(error.message);
