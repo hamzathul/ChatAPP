@@ -84,6 +84,7 @@ function handleInputErrors({
   }
   if (password.length < 6) {
     toast.error("Password must be 6 characters");
+    return false
   }
   return true;
 }

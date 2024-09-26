@@ -2,12 +2,27 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useAuthContext } from "../context/AuthContext";
 
+interface LoginInputs {
+  username: String;
+  password: String;
+}
+
+
 const useLogin = () => {
   const [loading, setLoading] = useState(false);
   //@ts-ignore
   const { setAuthUser } = useAuthContext();
 
   const login = async (username: String, password: String) => {
+
+    const success = handleInputErrors({
+      
+      username,
+      password,
+      
+    });
+    if (!success) return;
+
     setLoading(true);
     try {
       const res = await fetch("/api/auth/login", {
@@ -35,3 +50,19 @@ const useLogin = () => {
 };
 
 export default useLogin;
+
+
+function handleInputErrors({
+  username,
+  password,
+}: LoginInputs) {
+  if ( !username || !password ) {
+    toast.error("Please fill in all fields");
+    return false;
+  }
+  if (password.length < 6) {
+    toast.error("Password must be 6 characters");
+    return false
+  }
+  return true;
+}
