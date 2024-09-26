@@ -10,13 +10,13 @@ const useLogin = () => {
   const login = async (username: String, password: String) => {
     setLoading(true);
     try {
-      const res = fetch("/api/auth/login", {
+      const res = await fetch("/api/auth/login", {
         method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
-
-      const data = (await res).json();
+      //@ts-ignore
+       const data = await res.json(); 
       //@ts-ignore
       if (data.error) {
         //@ts-ignore
