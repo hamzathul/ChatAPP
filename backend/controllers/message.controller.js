@@ -4,7 +4,8 @@ import Message from "../models/message.model.js";
 export const sendMessage = async (req, res) => {
   try {
     const { message } = req.body;
-    const { id: receiverId } = req.params;
+    const { id: receiverId } = req.params; // renaming
+    console.log(req.params)
     const senderId = req.user._id;
 
     let conversation = await Conversation.findOne({
@@ -29,15 +30,16 @@ export const sendMessage = async (req, res) => {
 
     //SOCKET IO FUNCTIONALITY WILL GO HERE
 
+    // await newMessage.save();
     // await conversation.save()
-    // await newMessage.save()
+    
 
     //This will run in parallel
     await Promise.all([conversation.save(), newMessage.save()]);
 
     res.status(201).json({ newMessage });
   } catch (error) {
-    console.log("Error in send message controller", error.message);
+    console.log("Error in send message controller:", error);
     res.status(500).json({ error: "Internal Server error" });
   }
 };
@@ -49,7 +51,7 @@ export const getMessages = async (req, res) => {
 
     const conversation = await Conversation.findOne({
       participants: { $all: [senderId, userToChatId] },
-    }).populate("messages"); // NOTE REFERENCE BUT ACTUAL MESSAGES
+    }).populate("messages"); // NOT REFERENCE BUT ACTUAL MESSAGES
 
     if (!conversation) res.status(200).json([]);
 
