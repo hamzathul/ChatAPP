@@ -8,7 +8,7 @@ const Message = ({message}) => {
   //@ts-ignore
   const {selectedConversation}  = useConversation()
 
-  const fromMe = message.senderId = authUser._id
+  const fromMe = message.senderId === authUser._id
   const chatClassName = fromMe ? 'chat-end' : 'chat-start'
   const profilePic = fromMe ? authUser.profilePic : selectedConversation?.profilePic
   const bubbleBgColor = fromMe ? 'bg-orange-400': ""
