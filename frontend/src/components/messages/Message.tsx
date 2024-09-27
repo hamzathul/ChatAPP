@@ -1,15 +1,19 @@
 import React from 'react'
 import { useAuthContext } from '../../context/AuthContext';
 import useConversation from '../../zustand/useConversation';
-
+//@ts-ignore
 const Message = ({message}) => {
+  //@ts-ignore
   const {authUser} = useAuthContext()
+  //@ts-ignore
   const {selectedConversation}  = useConversation()
 
   const fromMe = message.senderId = authUser._id
   const chatClassName = fromMe ? 'chat-end' : 'chat-start'
   const profilePic = fromMe ? authUser.profilePic : selectedConversation?.profilePic
   const bubbleBgColor = fromMe ? 'bg-orange-400': ""
+  // console.log(message.message);
+  
 
   return (
     <div className={`chat ${chatClassName}`}>
@@ -18,7 +22,7 @@ const Message = ({message}) => {
           <img alt="Tailwind CSS chat bubble component" src={profilePic} />
         </div>
       </div>
-      <div className={`chat-bubble text-white bg-orange-400 ${bubbleBgColor}`}>Hello</div>
+      <div className={`chat-bubble text-white  ${bubbleBgColor}`}>{message?.message}</div>
       <div className="chat-footer opacity-50 text-xs flex gap-1 items-center">
         12:22
       </div>

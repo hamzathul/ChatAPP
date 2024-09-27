@@ -5,7 +5,7 @@ import MessageSkeleton from "../skeletons/MessageSkeleton";
 
 const Messages = () => {
   const { messages, loading } = useGetMessages();
-  console.log("messages:", messages);
+  console.log("messages:****", messages);  
   return (
     <div className="px-4 flex-1 overflow-auto">
       {!loading && messages.length>0 && messages.map((message:any)=><Message key={message._id} message={message}/>)}
