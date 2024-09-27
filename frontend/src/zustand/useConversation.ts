@@ -2,10 +2,12 @@ import { create } from "zustand";
 
 const useConversation = create((set) => ({
   selectedConversation: null,
-  setselectedConversation: (selectedConversation: any) =>
+  //@ts-ignore
+  setselectedConversation: (selectedConversation) =>
     set({ selectedConversation }),
   messages: [],
-  setMessages: (messages: any) => set({ messages }),
+  //@ts-ignore
+  setMessages: (messages) => set({ messages }),
 }));
 
 export default useConversation;

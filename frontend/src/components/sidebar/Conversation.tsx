@@ -6,7 +6,9 @@ const Conversation = ({conversation, lastIdx, emoji}) => {
   //@ts-ignore
   const { selectedConversation, setselectedConversation } = useConversation();
   const isSelected = selectedConversation?._id === conversation._id
-  console.log(isSelected)
+  // console.log(isSelected)
+  // console.log(conversation._id)
+  // console.log(selectedConversation)
   return (
     <>
       <div className={`flex gap-2 items-center hover:bg-orange-400 rounded p-2 py-1 cursor-pointer
