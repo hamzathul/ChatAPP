@@ -5,7 +5,6 @@ export const sendMessage = async (req, res) => {
   try {
     const { message } = req.body;
     const { id: receiverId } = req.params; // renaming
-    console.log(req.params)
     const senderId = req.user._id;
 
     let conversation = await Conversation.findOne({
@@ -32,7 +31,6 @@ export const sendMessage = async (req, res) => {
 
     // await newMessage.save();
     // await conversation.save()
-    
 
     //This will run in parallel
     await Promise.all([conversation.save(), newMessage.save()]);
@@ -53,8 +51,9 @@ export const getMessages = async (req, res) => {
       participants: { $all: [senderId, userToChatId] },
     }).populate("messages"); // NOT REFERENCE BUT ACTUAL MESSAGES
 
-    if (!conversation) res.status(200).json([]);
-
+    if (!conversation) {
+      return res.status(200).json([]);
+    }
     const messages = conversation.messages;
 
     res.status(200).json(messages);
