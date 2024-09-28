@@ -1,20 +1,21 @@
-import React, { useEffect } from 'react'
-import { useSocketContext } from '../context/SocketContext'
-import useConversation from '../zustand/useConversation'
+import React, { useEffect } from "react";
+import { useSocketContext } from "../context/SocketContext";
+import useConversation from "../zustand/useConversation";
 
 const useListenMessages = () => {
-    //@ts-ignore
-  const { socket} = useSocketContext()
   //@ts-ignore
-  const {messages, setMessages} = useConversation()
+  const { socket } = useSocketContext();
+  //@ts-ignore
+  const { messages, setMessages } = useConversation();
 
-  useEffect(()=>{
-    socket?.on("newMesage", (newMessage: any)=>{
-        setMessages([...messages, newMessage])
+  useEffect(() => {
+    //@ts-ignore
+    socket?.on("newMesage", (newMessage) => {
+      setMessages([...messages, newMessage]);
 
-        return () => socket?.off("newMessage")
-    })
-  },[socket, setMessages, messages])
-}
+      return () => socket?.off("newMessage");
+    });
+  }, [socket, setMessages, messages]);
+};
 
-export default useListenMessages
+export default useListenMessages;
