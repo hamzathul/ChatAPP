@@ -6,18 +6,29 @@ const useListenMessages = () => {
   //@ts-ignore
   const { socket } = useSocketContext();
   //@ts-ignore
-  const { messages, setMessages } = useConversation();
+  const { setMessages, messages } = useConversation();
 
   useEffect(() => {
-    //@ts-ignore
-    socket?.on("newMesage", (newMessage) => {
+    if (!socket) {
+      console.log("Socket is not initialized");
+      return;
+    }
+
+    const handleNewMessage = (newMessage: any) => {
       
       setMessages([...messages, newMessage]);
-      console.log(messages)
+      console.log("Received new message:", newMessage);
+    };
 
-      return () => socket?.off("newMessage");
-    });
-  }, [socket, setMessages, messages]);
+    // Listen for the new message event
+    socket.on("newMessage", handleNewMessage);
+
+    // Cleanup function to remove the listener
+    return () => {
+      socket.off("newMessage", handleNewMessage);
+      console.log("Cleanup: removed newMessage listener");
+    };
+  }, [socket, setMessages, messages]); 
 };
 
 export default useListenMessages;

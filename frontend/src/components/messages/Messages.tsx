@@ -20,7 +20,8 @@ const Messages = () => {
     <div className="px-4 flex-1 overflow-auto">
       {!loading &&
         messages.length > 0 &&
-        messages.map((message: any) => (
+        //@ts-ignore
+        messages.map((message) => (
           //@ts-ignore
           <div key={message._id} ref={lastMessageRef}>
             <Message message={message} />
