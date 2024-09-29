@@ -11,7 +11,9 @@ const useListenMessages = () => {
   useEffect(() => {
     //@ts-ignore
     socket?.on("newMesage", (newMessage) => {
+      
       setMessages([...messages, newMessage]);
+      console.log(messages)
 
       return () => socket?.off("newMessage");
     });
