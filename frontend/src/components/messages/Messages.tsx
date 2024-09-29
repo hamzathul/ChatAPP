@@ -7,12 +7,12 @@ import useListenMessages from "../../hooks/useListenMessages";
 const Messages = () => {
   const { messages, loading } = useGetMessages();
   useListenMessages()
-  const endOfMessagesRef = useRef(null);
+  const lastMessageRef = useRef();
   useEffect(() => {
-    if (endOfMessagesRef.current) {
+    setTimeout(()=>{
       //@ts-ignore
-      endOfMessagesRef.current.scrollIntoView({ behavior: "smooth" });
-    }
+      lastMessageRef.current?.scrollIntoView({behavior:"smooth"})
+    }, 100)
   }, [messages]);
 
   return (
@@ -20,7 +20,10 @@ const Messages = () => {
       {!loading &&
         messages.length > 0 &&
         messages.map((message: any) => (
-          <Message key={message._id} message={message} />
+          //@ts-ignore
+          <div key={message._id} ref={lastMessageRef}>
+            <Message message={message} />
+          </div>
         ))}
       {loading &&
         [...Array(3)].map((_, idx) => (
@@ -29,7 +32,6 @@ const Messages = () => {
       {!loading && messages.length === 0 && (
         <p className="text-center">Yay! Send a message to connect...</p>
       )}
-      <div ref={endOfMessagesRef} /> {/* Empty div to scroll to */}
     </div>
   );
 };
