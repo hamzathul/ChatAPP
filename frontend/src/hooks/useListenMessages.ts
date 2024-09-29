@@ -15,6 +15,7 @@ const useListenMessages = () => {
     }
 
     const handleNewMessage = (newMessage: any) => {
+      newMessage.shouldShake = true
       
       setMessages([...messages, newMessage]);
       console.log("Received new message:", newMessage);
